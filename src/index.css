@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 6% 97%;
+    --foreground: 240 10% 4%;
+    --surface: 240 5% 98.5%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 4%;
+    --primary: 179.3 100% 33.5%;           /* #00ABA9 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 5% 95%;
+    --secondary-foreground: 240 6% 10%;
+    --muted: 240 5% 95%;
+    --muted-foreground: 240 4% 44%;
+    --accent: 240 5% 94%;
+    --accent-foreground: 240 6% 10%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 6% 89%;
+    --input: 240 6% 84%;
+    --ring: 179.3 100% 33.5%;
+    --radius: 0.375rem;
+
+    --upper: #0050ef;
+    --lower: #d80073;
+    --warn: #c27803;
+    --litho: #185adb;
+    --junction: #e0a100;
+    --brand: #00aba9;
+
+    --plot-fg: #111114;
+    --plot-bg: #ffffff;
+    --plot-muted: #6b6b75;
+    --plot-grid: #e4e4e7;
+    --plot-band: #185adb;
+  }
+
+  .dark {
+    --background: 240 8% 4%;
+    --foreground: 0 0% 96%;
+    --surface: 240 6% 7%;
+    --card: 240 6% 6%;
+    --card-foreground: 0 0% 96%;
+    --popover: 240 6% 7%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 179.3 100% 36%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4% 14%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 240 4% 12%;
+    --muted-foreground: 240 5% 62%;
+    --accent: 240 4% 15%;
+    --accent-foreground: 0 0% 96%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 4% 16%;
+    --input: 240 4% 22%;
+    --ring: 179.3 100% 40%;
+
+    /* Lifted for contrast on dark surfaces */
+    --upper: #4d8bff;
+    --lower: #ff4fa8;
+    --warn: #f0a530;
+    --litho: #5b8def;
+    --junction: #f2b632;
+    --brand: #14c4c1;
+
+    --plot-fg: #e7e7ea;
+    --plot-bg: #0f0f12;
+    --plot-muted: #9a9aa5;
+    --plot-grid: #2a2a30;
+    --plot-band: #6b9bff;
+  }
+
+  * { @apply border-border; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  .tnum { font-variant-numeric: tabular-nums; }
+}
+
+@layer components {
+  .rich i { font-style: italic; }
+  .rich sub, .rich sup { font-size: 0.72em; line-height: 0; }
+
+  /* Card flip */
+  .flip-scene { perspective: 2400px; }
+  .flip-inner {
+    display: grid;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .flip-inner.is-flipped { transform: rotateY(180deg); }
+  .flip-face {
+    grid-area: 1 / 1;
+    min-width: 0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .flip-back { transform: rotateY(180deg); }
+  @media (prefers-reduced-motion: reduce) {
+    .flip-inner { transition: none; }
+  }
+
+  .plot-svg { display: block; max-width: 100%; }
+  .plot-svg.surface { cursor: grab; }
+  .plot-error { @apply rounded-md border border-dashed p-4 text-xs text-destructive; }
+
+  .katex { font-size: 1.02em; }
+  .katex-wrap {
+    padding: 4px 0;
+    line-height: 2.1;
+    text-align: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .katex-wrap .katex,
+  .katex-wrap .katex-html { white-space: normal; }
+
+  /* Collapsible region that animates its height (plot on/off) */
+  .collapse-rows {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.25s ease;
+  }
+  .collapse-rows.is-closed { grid-template-rows: 0fr; opacity: 0; }
+  .collapse-rows > * { min-height: 0; overflow: hidden; }
+  @media (prefers-reduced-motion: reduce) {
+    .collapse-rows { transition: none; }
+  }
+
+  /* Inputs that feed the traced value */
+  .trace-hit {
+    border-radius: 0.375rem;
+    /* A 1 px outline 3 px out; a box-shadow spread would paint the whole band */
+    outline: 1px solid hsl(var(--ring) / 0.45);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.05);
+    background: hsl(var(--primary) / 0.05);
+    transition: outline-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .flash { animation: flash 1.2s ease-out; }
+  @keyframes flash {
+    0% { box-shadow: 0 0 0 3px hsl(var(--ring) / 0.55); }
+    100% { box-shadow: 0 0 0 3px hsl(var(--ring) / 0); }
+  }
+
+  input[type='number'].no-spin::-webkit-inner-spin-button,
+  input[type='number'].no-spin::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type='number'].no-spin { -moz-appearance: textfield; }
+}

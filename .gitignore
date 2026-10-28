@@ -1,0 +1,27 @@
+# Dependencies and build output
+node_modules/
+dist/
+.vite/
+
+# Logs and caches
+npm-debug.log*
+*.log
+.cache/
+coverage/
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local environment
+.env
+.env.*
+
+# Design sources not needed by the site
+*.docx
+*.pdf
+*.ipynb
+.ipynb_checkpoints/
