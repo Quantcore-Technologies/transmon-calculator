@@ -1,5 +1,8 @@
 # Transmon Design Estimator
 
+[![Deploy](https://github.com/Quantcore-Technologies/transmon-calculator/actions/workflows/deploy.yml/badge.svg)](https://github.com/Quantcore-Technologies/transmon-calculator/actions/workflows/deploy.yml)
+[![Site](https://img.shields.io/badge/site-live-00ABA9)](https://quantcore-technologies.github.io/transmon-calculator/)
+
 A browser tool for working out the parameters of a flux-tunable transmon pair with dispersive readout and a tunable coupler. 
 note: each card is one design step, computed from values fixed in earlier steps.
 

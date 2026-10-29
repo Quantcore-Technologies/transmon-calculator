@@ -2,7 +2,7 @@
 node_modules/
 dist/
 .vite/
-
+.extras/
 # Logs and caches
 npm-debug.log*
 *.log
